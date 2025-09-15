@@ -23,13 +23,55 @@
     .crumb { color: #8b949e; margin-bottom: .5rem; }
     .intro { color: #8b949e; margin-bottom: 1rem; }
 
-    /* Bubbles list (no JS needed) */
-    .list { display: grid; grid-template-columns: 1fr; gap: .75rem; }
-    @media (min-width: 760px){ .list { grid-template-columns: 1fr 1fr; } }
-    @media (min-width: 1060px){ .list { grid-template-columns: 1fr 1fr 1fr; } }
+    /* === School accordion (card-like, matches your cards) === */
+    details.school { background: transparent; border: none; }
+    summary.school-summary {
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 5px;                 /* match project-card radius */
+      padding: .9rem 1rem;
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      color: #ffffff;                     /* white text */
+    }
+    summary.school-summary:hover { background: #242b33; }
+    summary.school-summary:focus-visible { outline: 2px solid #58a6ff; outline-offset: 2px; }
+    summary.school-summary::-webkit-details-marker { display: none; }
+    summary.school-summary::marker { content: ""; }
 
-    details { background: transparent; border: none; }
-    summary {
+    .school-caret {
+      width: 0; height: 0;
+      border-left: 8px solid #58a6ff;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      transition: transform .15s ease;
+      flex: 0 0 auto;
+    }
+    details.school[open] .school-caret { transform: rotate(90deg); }
+
+    .school-title { font-weight: 700; }
+    .school-meta { color: #8b949e; font-size: .9rem; }
+
+    .school-panel {
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-top: 0;                      /* visually attached to summary */
+      border-radius: 0 0 5px 5px;
+      padding: 1rem;
+      margin-top: -1px;                   /* seamless join to header */
+    }
+
+    /* === Course grid === */
+    .course-grid { display: grid; grid-template-columns: 1fr; gap: .75rem; }
+    @media (min-width: 760px){ .course-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1060px){ .course-grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+    /* === Course bubbles === */
+    details.course { background: transparent; border: none; }
+    summary.course-summary {
       background: #21262d;
       border: 1px solid #30363d;
       border-radius: 9999px;
@@ -39,22 +81,34 @@
       display: inline-flex;
       align-items: center;
       gap: .6rem;
-      color: #ffffff;                 /* pure white bubble text */
+      width: 100%;
+      color: #ffffff;                     /* pure white bubble text */
     }
-    summary:hover { background: #242b33; }
-    summary::-webkit-details-marker { display: none; }
-    summary::marker { content: ""; }
+    summary.course-summary:hover { background: #242b33; }
+    summary.course-summary:focus-visible { outline: 2px solid #58a6ff; outline-offset: 2px; }
+    summary.course-summary::-webkit-details-marker { display: none; }
+    summary.course-summary::marker { content: ""; }
 
-    .caret {
+    .course-caret {
       width: 0; height: 0;
       border-left: 6px solid #58a6ff;
       border-top: 6px solid transparent;
       border-bottom: 6px solid transparent;
       transition: transform .15s ease;
+      flex: 0 0 auto;
     }
-    details[open] .caret { transform: rotate(90deg); }
+    details.course[open] .course-caret { transform: rotate(90deg); }
 
-    .code { font-weight: 700; color: #ffffff; } /* code also white */
+    .code { font-weight: 700; color: #ffffff; }
+    .tag {
+      background: #161b22;
+      border: 1px solid #30363d;
+      color: #c9d1d9;
+      font-size: .75rem;
+      padding: .15rem .45rem;
+      border-radius: 9999px;
+      margin-left: auto;                  /* keeps subject neatly to the right */
+    }
 
     .panel {
       padding: .65rem 1rem .85rem 1rem;
@@ -63,7 +117,20 @@
       color: #c9d1d9;
     }
 
-    footer { text-align: center; padding: 2rem; color: #8b949e; font-size: .9rem; }
+    /* === Print polish: auto-show all descriptions; simplify ink === */
+    @media print {
+      header, nav, .crumb, .intro, footer { display: none !important; }
+      body { background: #fff; color: #000; }
+      main { max-width: none; margin: 0; padding: 0; }
+      h2 { border: none; color: #000; margin: 0 0 .5rem 0; }
+      summary.school-summary,
+      summary.course-summary { background: #fff; border: 1px solid #888; color: #000; }
+      .tag { border-color: #aaa; color: #000; background: #fff; }
+      .panel { border-left: 2px solid #999; color: #000; }
+      .school-caret, .course-caret { display: none !important; }
+      /* Show all panels on print, even if details are closed */
+      .panel { display: block !important; }
+    }
   </style>
 </head>
 <body>
@@ -79,148 +146,267 @@
 
   <main>
     <div class="crumb">Portfolio / Education</div>
-    <h2>Completed Courses @ Fayetteville Tech</h2>
-    <p class="intro">Click a bubble to reveal the course description. If there isn't official text available, you'll see <strong>N/A</strong>.</p>
+    <h2>Education</h2>
+    <p class="intro">Expand the school to view completed classes. Click a class to read its description. Where there isn’t official text, you’ll see <strong>N/A</strong>.</p>
 
-    <div class="list" aria-live="polite">
-      <!-- Cybersecurity / Networking / CS -->
-      <details>
-        <summary><span class="caret" aria-hidden="true"></span><span class="code">SEC-110</span> Security Concepts</summary>
-        <div class="panel">This course introduces the concepts and issues related to securing information systems and the development of policies to implement information security.</div>
-      </details>
+    <!-- SCHOOL (FTCC) -->
+    <details class="school" open>
+      <summary class="school-summary">
+        <span class="school-caret" aria-hidden="true"></span>
+        <span class="school-title">Fayetteville Technical Community College</span>
+        <span class="school-meta">• 27 completed courses across Cybersecurity, Networking, CS, Digital Media, and Game Development</span>
+      </summary>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">NOS-120</span> Linux/UNIX Single User</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+      <div class="school-panel">
+        <div class="course-grid" aria-live="polite">
+          <!-- Cybersecurity / Networking / CS -->
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret" aria-hidden="true"></span>
+              <span class="code">SEC-110</span> Security Concepts
+              <span class="tag">Cybersecurity</span>
+            </summary>
+            <div class="panel">This course introduces the concepts and issues related to securing information systems and the development of policies to implement information security.</div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">NOS-110</span> Operating Systems Concepts</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">NOS-120</span> Linux/UNIX Single User
+              <span class="tag">Networking</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">NET-126</span> Routing Basics</summary>
-        <div class="panel">This course introduces students to the networking field, including terminology and protocols, LANs, WANs, and related technologies.</div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">NOS-110</span> Operating Systems Concepts
+              <span class="tag">Networking</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">CTI-110</span> Web, Programming, &amp; DB Foundation</summary>
-        <div class="panel">This course covers the introduction of the tools and resources available to students in programming, mark-up, and database foundations.</div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">NET-126</span> Routing Basics
+              <span class="tag">Networking</span>
+            </summary>
+            <div class="panel">This course introduces students to the networking field, including terminology and protocols, LANs, WANs, and related technologies.</div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">CTI-120</span> Network &amp; Sec Foundation</summary>
-        <div class="panel">Introduces fundamental networking and security concepts as part of the Computer Technology Integration foundations.</div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">CTI-110</span> Web, Programming, &amp; DB Foundation
+              <span class="tag">Computer Science</span>
+            </summary>
+            <div class="panel">This course covers the introduction of the tools and resources available to students in programming, mark-up, and database foundations.</div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">CTS-115</span> Information Systems Business Concepts</summary>
-        <div class="panel">Introduces the role of IT in managing business processes and the need for business process and IT alignment.</div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">CTI-120</span> Network &amp; Sec Foundation
+              <span class="tag">Computer Science</span>
+            </summary>
+            <div class="panel">Introduces fundamental networking and security concepts as part of the Computer Technology Integration foundations.</div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">CIS-115</span> Intro to Programming &amp; Logic</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">CTS-115</span> Information Systems Business Concepts
+              <span class="tag">Computer Science</span>
+            </summary>
+            <div class="panel">Introduces the role of IT in managing business processes and the need for business process and IT alignment.</div>
+          </details>
 
-      <!-- Communications / English / Math / Gov / Academic Success -->
-      <details>
-        <summary><span class="caret"></span><span class="code">COM-120</span> Intro to Interpersonal Communication</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">CIS-115</span> Intro to Programming &amp; Logic
+              <span class="tag">Computer Science</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">ENG-111</span> Writing and Inquiry</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <!-- Communications / English / Math / Gov / Academic Success -->
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">COM-120</span> Intro to Interpersonal Communication
+              <span class="tag">Communications</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">MAT-110</span> Math Measurement &amp; Literacy</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">ENG-111</span> Writing and Inquiry
+              <span class="tag">English</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">POL-120</span> American Government</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">MAT-110</span> Math Measurement &amp; Literacy
+              <span class="tag">Mathematics</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">ACA-120</span> College Transfer Success</summary>
-        <div class="panel">Provides the information and strategies necessary to develop clear personal, academic, and professional goals.</div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">POL-120</span> American Government
+              <span class="tag">Political Science</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <!-- Digital Media / Game Dev -->
-      <details>
-        <summary><span class="caret"></span><span class="code">DME-120</span> Intro to Multimedia Applications</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">ACA-120</span> College Transfer Success
+              <span class="tag">Academic Success</span>
+            </summary>
+            <div class="panel">Provides the information and strategies necessary to develop clear personal, academic, and professional goals.</div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">DME-130</span> Digital Animation I</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <!-- Digital Media / Game Dev -->
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">DME-120</span> Intro to Multimedia Applications
+              <span class="tag">Digital Media</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">SGD-111</span> Introduction to Simulation and Game Development</summary>
-        <div class="panel">Provides an introduction to simulation and game development.</div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">DME-130</span> Digital Animation I
+              <span class="tag">Digital Media</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">SGD-112</span> 3D Modeling II</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">SGD-111</span> Introduction to Simulation and Game Development
+              <span class="tag">Game Development</span>
+            </summary>
+            <div class="panel">Provides an introduction to simulation and game development.</div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">SGD-114</span> 3D Modeling I</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">SGD-112</span> 3D Modeling II
+              <span class="tag">Game Development</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">SGD-116</span> Animation I</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">SGD-114</span> 3D Modeling I
+              <span class="tag">Game Development</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">SGD-158</span> Simulation and Game Design Tools</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">SGD-116</span> Animation I
+              <span class="tag">Game Development</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">SGD-162</span> 3D Character Modeling</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">SGD-158</span> Simulation and Game Design Tools
+              <span class="tag">Game Development</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">SGD-163</span> Game Level Design I</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">SGD-162</span> 3D Character Modeling
+              <span class="tag">Game Development</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">SGD-172</span> 3D Rendering</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">SGD-163</span> Game Level Design I
+              <span class="tag">Game Development</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">SGD-180</span> Game Design I</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">SGD-172</span> 3D Rendering
+              <span class="tag">Game Development</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">SGD-212</span> Game Design II</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">SGD-180</span> Game Design I
+              <span class="tag">Game Development</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">SGD-237</span> Game Character Design</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">SGD-212</span> Game Design II
+              <span class="tag">Game Development</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
 
-      <details>
-        <summary><span class="caret"></span><span class="code">SGD-289</span> Game Production I</summary>
-        <div class="panel"><em>N/A</em></div>
-      </details>
-    </div>
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">SGD-237</span> Game Character Design
+              <span class="tag">Game Development</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
+
+          <details class="course">
+            <summary class="course-summary">
+              <span class="course-caret"></span>
+              <span class="code">SGD-289</span> Game Production I
+              <span class="tag">Game Development</span>
+            </summary>
+            <div class="panel"><em>N/A</em></div>
+          </details>
+        </div>
+      </div>
+    </details>
   </main>
 
   <footer>
