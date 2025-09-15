@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Education • Fayetteville Tech Courses</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0b0d10;--card:#12161b;--muted:#9fb0c3;--text:#e7eef6;--accent:#8bd3ff;--accent2:#6fe3b5;--ring:#3a4a5e}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(180deg,#0b0d10 0%, #0e1116 60%, #0b0d10 100%);color:var(--text);}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    header{position:sticky;top:0;backdrop-filter:saturate(140%) blur(8px);background:rgba(11,13,16,.7);border-bottom:1px solid #1c222b;z-index:10}
+    .container{max-width:1100px;margin:0 auto;padding:20px}
+    .hero{display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .title{font-size:clamp(24px,4vw,36px);font-weight:700;letter-spacing:.2px}
+    .subtitle{color:var(--muted);margin-top:6px}
+    .chip{display:inline-flex;align-items:center;gap:8px;border:1px solid #243041;background:#12161b;border-radius:999px;padding:8px 12px;color:#cfe2f6;font-weight:600}
+    .controls{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+    .input,.select,.button{appearance:none;border:1px solid #243041;background:#0f1318;color:var(--text);padding:10px 12px;border-radius:10px;outline:none}
+    .input:focus,.select:focus{box-shadow:0 0 0 3px #273443;border-color:var(--ring)}
+    .button{cursor:pointer;font-weight:600}
+    .button:hover{background:#121923}
+    .grid{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:16px;margin-top:20px}
+    @media (min-width:700px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (min-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    .card{position:relative;background:radial-gradient(1200px 300px at -20% -20%, rgba(139,211,255,.08), transparent 40%),var(--card);border:1px solid #1a222c;border-radius:16px;padding:16px;transition:transform .15s ease, box-shadow .2s ease, border-color .2s ease}
+    .card:hover{transform:translateY(-2px);border-color:#274057;box-shadow:0 10px 24px rgba(0,0,0,.35)}
+    .code{font-weight:700;letter-spacing:.3px;color:#cbe9ff}
+    .title-sm{margin:4px 0 8px;font-size:16px;line-height:1.25}
+    .meta{display:flex;flex-wrap:wrap;gap:6px;color:var(--muted);font-size:13px}
+    .pill{border:1px solid #243041;background:#0b1117;padding:4px 8px;border-radius:999px}
+    .footer{margin-top:26px;color:var(--muted);font-size:13px}
+    .row{display:flex;gap:10px;align-items:center}
+    .spacer{flex:1}
+    .toggle{display:inline-flex;align-items:center;gap:8px}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container hero">
+      <div>
+        <div class="title">Jonathan Snodgrass • Education</div>
+        <div class="subtitle">Fayetteville Technical Community College coursework</div>
+      </div>
+      <div class="row">
+        <span class="chip" title="Quick links">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10.5 13.5l3-3" stroke="#8bd3ff" stroke-width="1.6" stroke-linecap="round"/><path d="M7.5 6.75h-1.5a3.75 3.75 0 100 7.5h3a3.75 3.75 0 003.75-3.75v-1.5" stroke="#8bd3ff" stroke-width="1.6" stroke-linecap="round"/><path d="M16.5 17.25h1.5a3.75 3.75 0 100-7.5h-3a3.75 3.75 0 00-3.75 3.75v1.5" stroke="#8bd3ff" stroke-width="1.6" stroke-linecap="round"/></svg>
+          FTCC Links
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="controls" aria-label="Filters and actions">
+      <input id="search" class="input" type="search" placeholder="Search by title, code, subject…" aria-label="Search courses" />
+      <select id="subject" class="select" aria-label="Filter by subject">
+        <option value="">All subjects</option>
+      </select>
+      <select id="term" class="select" aria-label="Filter by term">
+        <option value="">All terms</option>
+        <option>Fall</option>
+        <option>Spring</option>
+        <option>Summer</option>
+      </select>
+      <select id="sort" class="select" aria-label="Sort">
+        <option value="az">Sort: A → Z</option>
+        <option value="za">Sort: Z → A</option>
+        <option value="new">Sort: Newest</option>
+        <option value="old">Sort: Oldest</option>
+      </select>
+      <button id="copyMarkdown" class="button" title="Copy selected courses as Markdown for your portfolio README">Copy as Markdown</button>
+      <div class="spacer"></div>
+      <label class="toggle">
+        <input id="compact" type="checkbox" />
+        <span>Compact cards</span>
+      </label>
+    </section>
+
+    <section id="grid" class="grid" aria-live="polite" aria-busy="false"></section>
+
+    <p class="footer">All courses below are marked <strong>Completed</strong> in FTCC progress report.</p>
+  </main>
+
+  <script>
+    const COURSES = [
+      { code: "SEC-110", title: "Security Concepts", subject: "Cybersecurity", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/sec-110/" },
+      { code: "NOS-120", title: "Linux/UNIX Single User", subject: "Networking", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/nos-120/" },
+      { code: "SGD-111", title: "Introduction to Simulation and Game Development", subject: "Game Development", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/sgd-111/" },
+      { code: "SGD-114", title: "3D Modeling I", subject: "Game Development", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/sgd-114/" },
+      { code: "COM-120", title: "Intro to Interpersonal Communication", subject: "Communications", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/com-120/" },
+      { code: "SGD-158", title: "Simulation and Game Design Tools", subject: "Game Development", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/sgd-158/" },
+      { code: "ENG-111", title: "Writing and Inquiry", subject: "English", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/eng-111/" },
+      { code: "MAT-110", title: "Math Measurement & Literacy", subject: "Mathematics", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/mat-110/" },
+      { code: "POL-120", title: "American Government", subject: "Political Science", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/pol-120/" },
+      { code: "SGD-112", title: "3D Modeling II", subject: "Game Development", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/sgd-112/" },
+      { code: "HUM-110", title: "Technology and Society", subject: "Humanities", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/hum-110/" },
+      { code: "SGD-180", title: "Game Design I", subject: "Game Development", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/sgd-180/" },
+      { code: "CIS-115", title: "Intro to Programming & Logic", subject: "Computer Science", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/cis-115/" },
+      { code: "SGD-116", title: "Animation I", subject: "Game Development", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/sgd-116/" },
+      { code: "SGD-162", title: "3D Character Modeling", subject: "Game Development", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/sgd-162/" },
+      { code: "SGD-172", title: "3D Rendering", subject: "Game Development", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/sgd-172/" },
+      { code: "SGD-212", title: "Game Design II", subject: "Game Development", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/sgd-212/" },
+      { code: "SGD-163", title: "Game Level Design I", subject: "Game Development", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/sgd-163/" },
+      { code: "SGD-289", title: "Game Production I", subject: "Game Development", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/sgd-289/" },
+      { code: "DME-120", title: "Intro to Multimedia Applications", subject: "Digital Media", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/dme-120/" },
+      { code: "ACA-120", title: "College Transfer Success", subject: "Academic Success", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/aca-120/" },
+      { code: "DME-130", title: "Digital Animation I", subject: "Digital Media", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/dme-130/" },
+      { code: "CTI-110", title: "Web, Programming, & DB Foundation", subject: "Computer Technology Integration", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/cti-110/" },
+      { code: "CTI-120", title: "Network & Sec Foundation", subject: "Computer Technology Integration", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/cti-120/" },
+      { code: "SGD-237", title: "Game Character Design", subject: "Game Development", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/sgd-237/" },
+      { code: "NET-126", title: "Routing Basics", subject: "Networking", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/net-126/" },
+      { code: "NOS-110", title: "Operating Systems Concepts", subject: "Networking", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/nos-110/" },
+      { code: "CTS-115", title: "Info Sys Business Concepts", subject: "Computer Technology Integration", term: "", year: 2025, url: "https://www.faytechcc.edu/academics/course/cts-115/" }
+    ];
+
+    const $ = (sel, el=document) => el.querySelector(sel);
+    const subjectSelect = $('#subject');
+    const searchInput = $('#search');
+    const termSelect = $('#term');
+    const sortSelect = $('#sort');
+    const grid = $('#grid');
+    const copyBtn = $('#copyMarkdown');
+    const compactToggle = $('#compact');
+
+    function uniq(values){ return [...new Set(values)]; }
+
+    function populateSubjects(){
+      const subjects = uniq(COURSES.map(c => c.subject).filter(Boolean)).sort();
+      subjects.forEach(s => {
+        const opt = document.createElement('option');
+        opt.textContent = s; opt.value = s; subjectSelect.appendChild(opt);
+      });
+    }
+
+    function filterCourses(){
+      const q = searchInput.value.trim().toLowerCase();
+      const subj = subjectSelect.value;
+      const term = termSelect.value;
+      let list = COURSES.slice();
+      if(q){
+        list = list.filter(c => `${c.code} ${c.title} ${c.subject}`.toLowerCase().includes(q));
+      }
+      if(subj){ list = list.filter(c => c.subject === subj); }
+      if(term){ list = list.filter(c => c.term === term); }
+
+      switch (sortSelect.value){
+        case 'az': list.sort((a,b)=> a.title.localeCompare(b.title)); break;
+        case 'za': list.sort((a,b)=> b.title.localeCompare(a.title)); break;
+        case 'new': list.sort((a,b)=> (b.year - a.year) || (b.term||'').localeCompare(a.term||'')); break;
+        case 'old': list.sort((a,b)=> (a.year - b.year) || (a.term||'').localeCompare(b.term||'')); break;
+      }
+      return list;
+    }
+
+    function render(){
+      grid.setAttribute('aria-busy','true');
+      grid.innerHTML = '';
+      const list = filterCourses();
+      list.forEach(c => grid.appendChild(courseCard(c)));
+      grid.setAttribute('aria-busy','false');
+    }
+
+    function courseCard(c){
+      const card = document.createElement('article');
+      card.className = 'card';
+      if(compactToggle.checked) card.style.padding = '12px';
+
+      const h = document.createElement('h3');
+      h.className = 'title-sm';
+      h.innerHTML = `<span class="code">${c.code}</span> • ${c.title}`;
+
+      const meta = document.createElement('div');
+      meta
