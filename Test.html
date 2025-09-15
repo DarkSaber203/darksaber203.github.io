@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Education • Jonathan Wayne Snodgrass</title>
   <style>
-    :root { --bg:#0b0d10; --text:#e7eef6; --muted:#a9b5c4; --link:#8bd3ff; --card:#12161b; }
+    :root { --bg:#0b0d10; --text:#e7eef6; --muted:#a9b5c4; --link:#8bd3ff; --card:#12161b; --border:#1b2430; }
     * { box-sizing: border-box; }
     body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); }
     header, footer { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
@@ -14,16 +14,23 @@
     .tagline { color: var(--muted); margin: 0 0 12px; }
     nav a { color: var(--link); text-decoration: none; margin-right: 14px; }
     nav a:hover { text-decoration: underline; }
-    .intro { color: var(--muted); margin: 8px 0 20px; }
-    .course-list { list-style: none; padding: 0; margin: 0; }
-    .course { background: var(--card); border: 1px solid #1b2430; border-radius: 12px; padding: 12px 14px; margin: 10px 0; }
-    .course a { color: var(--link); text-decoration: none; }
-    .course a:hover { text-decoration: underline; }
-    .code { font-weight: 700; }
     .crumb { color: var(--muted); font-size: 14px; margin-bottom: 8px; }
+    .intro { color: var(--muted); margin: 8px 0 18px; }
     .filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 16px; }
     .filters input, .filters select { background:#0f141a; color: var(--text); border: 1px solid #223142; border-radius: 8px; padding: 8px 10px; }
+
+    /* accordion list */
+    .list { border-top: 1px solid var(--border); }
+    .item { border-bottom: 1px solid var(--border); }
+    .btn { width: 100%; text-align: left; background: transparent; border: 0; color: var(--text); font: inherit; padding: 12px 8px; display:flex; align-items:center; gap:10px; cursor:pointer; }
+    .btn:hover { background: #0e1319; }
+    .code { font-weight: 700; }
+    .chev { transition: transform .15s ease; }
+    .open .chev { transform: rotate(90deg); }
+    .panel { display: none; padding: 0 8px 12px 34px; color: var(--muted); }
+    .open + .panel { display: block; }
     .muted { color: var(--muted); font-size: 14px; }
+    .ext { color: var(--link); text-decoration: none; }
   </style>
 </head>
 <body>
@@ -40,11 +47,11 @@
   <main>
     <div class="crumb">Portfolio / Education</div>
     <h2>Completed Courses @ Fayetteville Tech</h2>
-    <p class="intro">Only classes marked <em>Completed</em> in my FTCC progress are shown below. Each item links to the official FTCC course page.</p>
+    <p class="intro">Click a course name to toggle its official description. Source: FTCC Course Descriptions.</p>
 
     <div class="filters">
-      <input id="q" type="search" placeholder="Search course title or code…" aria-label="Search courses" />
-      <select id="subject">
+      <input id="q" type="search" placeholder="Search title or code…" aria-label="Search courses" />
+      <select id="subject" aria-label="Filter by subject">
         <option value="">All subjects</option>
         <option>Cybersecurity</option>
         <option>Networking</option>
@@ -57,16 +64,16 @@
         <option>Political Science</option>
         <option>Academic Success</option>
       </select>
-      <select id="sort">
+      <select id="sort" aria-label="Sort">
         <option value="az">Sort: A → Z</option>
         <option value="za">Sort: Z → A</option>
         <option value="code">Sort: Course Code</option>
       </select>
     </div>
 
-    <ul id="list" class="course-list" aria-live="polite"></ul>
+    <div id="list" class="list" aria-live="polite"></div>
 
-    <p class="muted">Want to verify a course? Click the course title to open FTCC’s official page in a new tab.</p>
+    <p class="muted">If a description is missing, use the link shown to open FTCC’s official page for that course.</p>
   </main>
 
   <footer>
@@ -74,42 +81,55 @@
   </footer>
 
   <script>
-    // Completed courses pulled from FTCC progress report
+    // Completed courses (with descriptions pulled from FTCC sources where available)
+    // NOTE: Some descriptions are left blank and will show a fallback link.
     const COURSES = [
-      { code: "SEC-110", title: "Security Concepts", subject: "Cybersecurity", url: "https://www.faytechcc.edu/academics/course/sec-110/" },
-      { code: "NOS-120", title: "Linux/UNIX Single User", subject: "Networking", url: "https://www.faytechcc.edu/academics/course/nos-120/" },
-      { code: "SGD-111", title: "Introduction to Simulation and Game Development", subject: "Game Development", url: "https://www.faytechcc.edu/academics/course/sgd-111/" },
-      { code: "SGD-114", title: "3D Modeling I", subject: "Game Development", url: "https://www.faytechcc.edu/academics/course/sgd-114/" },
-      { code: "COM-120", title: "Intro to Interpersonal Communication", subject: "Communications", url: "https://www.faytechcc.edu/academics/course/com-120/" },
-      { code: "SGD-158", title: "Simulation and Game Design Tools", subject: "Game Development", url: "https://www.faytechcc.edu/academics/course/sgd-158/" },
-      { code: "ENG-111", title: "Writing and Inquiry", subject: "English", url: "https://www.faytechcc.edu/academics/course/eng-111/" },
-      { code: "MAT-110", title: "Math Measurement & Literacy", subject: "Mathematics", url: "https://www.faytechcc.edu/academics/course/mat-110/" },
-      { code: "POL-120", title: "American Government", subject: "Political Science", url: "https://www.faytechcc.edu/academics/course/pol-120/" },
-      { code: "SGD-112", title: "3D Modeling II", subject: "Game Development", url: "https://www.faytechcc.edu/academics/course/sgd-112/" },
-      { code: "HUM-110", title: "Technology and Society", subject: "Humanities", url: "https://www.faytechcc.edu/academics/course/hum-110/" },
-      { code: "SGD-180", title: "Game Design I", subject: "Game Development", url: "https://www.faytechcc.edu/academics/course/sgd-180/" },
-      { code: "CIS-115", title: "Intro to Programming & Logic", subject: "Computer Science", url: "https://www.faytechcc.edu/academics/course/cis-115/" },
-      { code: "SGD-116", title: "Animation I", subject: "Game Development", url: "https://www.faytechcc.edu/academics/course/sgd-116/" },
-      { code: "SGD-162", title: "3D Character Modeling", subject: "Game Development", url: "https://www.faytechcc.edu/academics/course/sgd-162/" },
-      { code: "SGD-172", title: "3D Rendering", subject: "Game Development", url: "https://www.faytechcc.edu/academics/course/sgd-172/" },
-      { code: "SGD-212", title: "Game Design II", subject: "Game Development", url: "https://www.faytechcc.edu/academics/course/sgd-212/" },
-      { code: "SGD-163", title: "Game Level Design I", subject: "Game Development", url: "https://www.faytechcc.edu/academics/course/sgd-163/" },
-      { code: "SGD-289", title: "Game Production I", subject: "Game Development", url: "https://www.faytechcc.edu/academics/course/sgd-289/" },
-      { code: "DME-120", title: "Intro to Multimedia Applications", subject: "Digital Media", url: "https://www.faytechcc.edu/academics/course/dme-120/" },
-      { code: "ACA-120", title: "College Transfer Success", subject: "Academic Success", url: "https://www.faytechcc.edu/academics/course/aca-120/" },
-      { code: "DME-130", title: "Digital Animation I", subject: "Digital Media", url: "https://www.faytechcc.edu/academics/course/dme-130/" },
-      { code: "CTI-110", title: "Web, Programming, & DB Foundation", subject: "Computer Science", url: "https://www.faytechcc.edu/academics/course/cti-110/" },
-      { code: "CTI-120", title: "Network & Sec Foundation", subject: "Computer Science", url: "https://www.faytechcc.edu/academics/course/cti-120/" },
-      { code: "SGD-237", title: "Game Character Design", subject: "Game Development", url: "https://www.faytechcc.edu/academics/course/sgd-237/" },
-      { code: "NET-126", title: "Routing Basics", subject: "Networking", url: "https://www.faytechcc.edu/academics/course/net-126/" },
-      { code: "NOS-110", title: "Operating Systems Concepts", subject: "Networking", url: "https://www.faytechcc.edu/academics/course/nos-110/" },
-      { code: "CTS-115", title: "Information Systems Business Concepts", subject: "Computer Science", url: "https://www.faytechcc.edu/academics/course/cts-115/" }
+      { code: "SEC-110", title: "Security Concepts", subject: "Cybersecurity", url: "https://selfserv.faytechcc.edu/Student/Courses/Search?subjects=SEC", desc: "This course introduces the concepts and issues related to securing information systems and the development of policies to implement information security." },
+      { code: "NOS-120", title: "Linux/UNIX Single User", subject: "Networking", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "NOS-110", title: "Operating Systems Concepts", subject: "Networking", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "NET-126", title: "Routing Basics", subject: "Networking", url: "https://selfserv.faytechcc.edu/Student/Courses/Search?subjects=NET", desc: "This course introduces students to the networking field, including terminology and protocols, LANs, WANs, and related technologies." },
+      { code: "CTI-110", title: "Web, Programming, & DB Foundation", subject: "Computer Science", url: "https://selfserv.faytechcc.edu/student/Courses/Search?subjects=CTI", desc: "This course covers the introduction of the tools and resources available to students in programming, mark-up, and database foundations." },
+      { code: "CTI-120", title: "Network & Sec Foundation", subject: "Computer Science", url: "https://selfserv.faytechcc.edu/student/Courses/Search?subjects=CTI", desc: "Introduces fundamental networking and security concepts as part of the Computer Technology Integration foundations." },
+      { code: "CTS-115", title: "Information Systems Business Concepts", subject: "Computer Science", url: "https://selfserv.faytechcc.edu/Student/Courses/Search?subjects=CTS", desc: "Introduces the role of IT in managing business processes and the need for business process and IT alignment." },
+      { code: "CIS-115", title: "Intro to Programming & Logic", subject: "Computer Science", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "COM-120", title: "Intro to Interpersonal Communication", subject: "Communications", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "ENG-111", title: "Writing and Inquiry", subject: "English", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "MAT-110", title: "Math Measurement & Literacy", subject: "Mathematics", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "POL-120", title: "American Government", subject: "Political Science", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "ACA-120", title: "College Transfer Success", subject: "Academic Success", url: "https://selfserv.faytechcc.edu/student/Courses/Search", desc: "Provides the information and strategies necessary to develop clear personal, academic, and professional goals." },
+      { code: "DME-120", title: "Intro to Multimedia Applications", subject: "Digital Media", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "DME-130", title: "Digital Animation I", subject: "Digital Media", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "SGD-111", title: "Introduction to Simulation and Game Development", subject: "Game Development", url: "https://selfserv.faytechcc.edu/student/Courses/Search?subjects=SGD", desc: "Provides an introduction to simulation and game development." },
+      { code: "SGD-112", title: "3D Modeling II", subject: "Game Development", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "SGD-114", title: "3D Modeling I", subject: "Game Development", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "SGD-116", title: "Animation I", subject: "Game Development", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "SGD-158", title: "Simulation and Game Design Tools", subject: "Game Development", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "SGD-162", title: "3D Character Modeling", subject: "Game Development", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "SGD-163", title: "Game Level Design I", subject: "Game Development", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "SGD-172", title: "3D Rendering", subject: "Game Development", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "SGD-180", title: "Game Design I", subject: "Game Development", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "SGD-212", title: "Game Design II", subject: "Game Development", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "SGD-237", title: "Game Character Design", subject: "Game Development", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
+      { code: "SGD-289", title: "Game Production I", subject: "Game Development", url: "https://forms.faytechcc.edu/course-descriptions/", desc: "" },
     ];
 
     const list = document.getElementById('list');
     const q = document.getElementById('q');
     const subject = document.getElementById('subject');
     const sort = document.getElementById('sort');
+
+    function rowTemplate(c){
+      const hasDesc = (c.desc || '').trim().length > 0;
+      const link = c.url ? `<a class="ext" href="${c.url}" target="_blank" rel="noopener">Open on FTCC</a>` : '';
+      return `
+        <div class="item">
+          <button class="btn" aria-expanded="false">
+            <svg class="chev" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#8bd3ff" stroke-width="2" stroke-linecap="round"/></svg>
+            <span class="code">${c.code}</span> — ${c.title}
+          </button>
+          <div class="panel">${hasDesc ? c.desc : `Description coming soon. ${link ? ` ${link}` : ''}`}</div>
+        </div>`;
+    }
 
     function render(){
       const query = q.value.trim().toLowerCase();
@@ -121,14 +141,16 @@
       if(sort.value === 'za'){ items.sort((a,b)=> b.title.localeCompare(a.title)); }
       if(sort.value === 'code'){ items.sort((a,b)=> a.code.localeCompare(b.code)); }
 
-      list.innerHTML = '';
-      for(const c of items){
-        const li = document.createElement('li');
-        li.className = 'course';
-        li.innerHTML = `<div><span class="code">${c.code}</span> — <a href="${c.url}" target="_blank" rel="noopener">${c.title}</a></div>
-                        <div class="muted">${c.subject}</div>`;
-        list.appendChild(li);
-      }
+      list.innerHTML = items.map(rowTemplate).join('');
+      // bind buttons
+      list.querySelectorAll('.btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const open = btn.classList.toggle('open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          const panel = btn.nextElementSibling;
+          if(panel){ panel.style.display = open ? 'block' : 'none'; }
+        });
+      });
     }
 
     q.addEventListener('input', render);
