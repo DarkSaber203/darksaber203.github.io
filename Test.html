@@ -1,188 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Education • Jonathan Wayne Snodgrass</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jonathan Wayne - Education</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap" rel="stylesheet" />
   <style>
-    /* ===== minimalist dark theme to mirror your index.html look ===== */
-    :root { --bg:#0b0d10; --text:#e7eef6; --muted:#a9b5c4; --accent:#8bd3ff; --chip:#0f141a; --chipBorder:#223142; }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); }
+    /* === Base: mirror index.html === */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Roboto', sans-serif; line-height: 1.6; background: #0d1117; color: #c9d1d9; }
 
-    /* header / footer consistent with home */
-    header, footer { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
-    main { max-width: 900px; margin: 0 auto; padding: 16px; }
-    h1 { margin: 0 0 6px; font-size: clamp(24px, 4vw, 36px); font-weight: 700; }
-    .tagline { color: var(--muted); margin: 0 0 12px; }
+    header { background: #161b22; padding: 2rem; text-align: center; }
+    header h1 { font-size: 2.5rem; }
+    header p { font-size: 1.2rem; color: #8b949e; }
 
-    /* nav: plain inline links like your home page */
-    nav { display: flex; gap: 12px; margin-bottom: 6px; }
-    nav a { color: var(--accent); text-decoration: none; padding: 2px 0; }
-    nav a[aria-current="page"] { text-decoration: underline; }
+    nav { background: #161b22; padding: 1rem; text-align: center; }
+    nav a { color: #58a6ff; margin: 0 1rem; text-decoration: none; font-weight: 500; }
+    nav a:hover { text-decoration: underline; }
 
-    .crumb { color: var(--muted); font-size: 14px; margin: 10px 0 8px; }
-    h2 { margin: 6px 0 8px; font-size: 22px; }
-    .intro { color: var(--muted); margin: 6px 0 16px; }
+    main { max-width: 900px; margin: 2rem auto; padding: 1rem; }
+    h2 { border-bottom: 2px solid #30363d; padding-bottom: 0.5rem; margin-bottom: 1rem; color: #58a6ff; }
+    .crumb { color: #8b949e; margin-bottom: .5rem; }
+    .intro { color: #8b949e; margin-bottom: 1rem; }
 
-    /* filters: unobtrusive, rounded like simple chips */
-    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 16px; }
-    .filters input, .filters select { background: var(--chip); color: var(--text); border: 1px solid var(--chipBorder); border-radius: 9999px; padding: 8px 14px; outline: none; }
+    /* Filters */
+    .filters { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 1.25rem; }
+    .filters input,
+    .filters select { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; border-radius: 5px; padding: .5rem .75rem; }
 
-    /* bubble chips (flat, no glow/shadow, to match your minimalist style) */
-    .list { display: grid; gap: 10px; }
-    .row { display: grid; grid-template-columns: 1fr; gap: 6px; }
-    .bubble { display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--chipBorder); background: var(--chip); color: #ffffff; border-radius: 9999px; padding: 10px 14px; cursor: pointer; user-select: none; }
-    .bubble:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .code { font-weight: 700; letter-spacing: .2px; color: #cfe6ff; }
-    .caret { width: 0; height: 0; border-left: 6px solid var(--accent); border-top: 6px solid transparent; border-bottom: 6px solid transparent; transition: transform .12s ease; }
+    /* Bubble list */
+    .list { display: grid; grid-template-columns: 1fr; gap: .75rem; }
+    @media (min-width: 760px){ .list { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1060px){ .list { grid-template-columns: 1fr 1fr 1fr; } }
+
+    .item { display: block; }
+    .bubble {
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 9999px;
+      padding: .65rem 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      cursor: pointer;
+      width: 100%;
+      text-align: left;
+      color: #ffffff;             /* bubble text pure white */
+    }
+    .bubble:hover { background: #242b33; }
+    .code { font-weight: 700; color: #ffffff; }  /* course code also pure white */
+    .caret {
+      width: 0; height: 0;
+      border-left: 6px solid #58a6ff;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      transition: transform .15s ease;
+    }
     .bubble[aria-expanded="true"] .caret { transform: rotate(90deg); }
 
-    /* description panel: simple, no box-shadows; spacing matches home */
-    .panel { display: none; padding-left: 18px; border-left: 2px dashed var(--chipBorder); color: var(--muted); line-height: 1.55; }
+    .panel {
+      display: none;
+      padding: .65rem 1rem .85rem 1rem;
+      margin-left: 1rem;
+      border-left: 2px dashed #30363d;
+      color: #c9d1d9;
+    }
     .panel.open { display: block; }
 
-    .meta { color: var(--muted); font-size: 12.5px; }
-
-    @media (min-width: 760px) {
-      .list { grid-template-columns: 1fr 1fr; }
-    }
-    @media (min-width: 1040px) {
-      .list { grid-template-columns: 1fr 1fr 1fr; }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Jonathan Wayne Snodgrass</h1>
-    <p class="tagline">Game Design & Cybersecurity Student</p>
-    <nav>
-      <a href="/index.html">Home</a>
-      <a href="/Projects.html">Projects</a>
-      <a href="/Education.html" aria-current="page">Education</a>
-    </nav>
-  </header>
-
-  <main>
-    <div class="crumb">Portfolio / Education</div>
-    <h2>Completed Courses @ Fayetteville Tech</h2>
-    <p class="intro">Click a bubble to reveal the course description. If FTCC doesn’t list one, you’ll see <strong>N/A</strong>.</p>
-
-    <div class="filters">
-      <input id="q" type="search" placeholder="Search title or code…" aria-label="Search courses" />
-      <select id="subject" aria-label="Filter by subject">
-        <option value="">All subjects</option>
-        <option>Cybersecurity</option>
-        <option>Networking</option>
-        <option>Computer Science</option>
-        <option>Digital Media</option>
-        <option>Game Development</option>
-        <option>Humanities</option>
-        <option>Mathematics</option>
-        <option>English</option>
-        <option>Political Science</option>
-        <option>Academic Success</option>
-      </select>
-      <select id="sort" aria-label="Sort">
-        <option value="az">Sort: A → Z</option>
-        <option value="za">Sort: Z → A</option>
-        <option value="code">Sort: Course Code</option>
-      </select>
-    </div>
-
-    <div id="list" class="list" aria-live="polite"></div>
-  </main>
-
-  <footer>
-    <small>© 2025 Jonathan Wayne Snodgrass | jonathanwayne.dev</small>
-  </footer>
-
-  <script>
-    // Completed courses (descriptions left blank will show "N/A").
-    const COURSES = [
-      { code: "SEC-110", title: "Security Concepts", subject: "Cybersecurity", desc: "This course introduces the concepts and issues related to securing information systems and the development of policies to implement information security." },
-      { code: "NOS-120", title: "Linux/UNIX Single User", subject: "Networking", desc: "" },
-      { code: "NOS-110", title: "Operating Systems Concepts", subject: "Networking", desc: "" },
-      { code: "NET-126", title: "Routing Basics", subject: "Networking", desc: "This course introduces students to the networking field, including terminology and protocols, LANs, WANs, and related technologies." },
-      { code: "CTI-110", title: "Web, Programming, & DB Foundation", subject: "Computer Science", desc: "This course covers the introduction of the tools and resources available to students in programming, mark-up, and database foundations." },
-      { code: "CTI-120", title: "Network & Sec Foundation", subject: "Computer Science", desc: "Introduces fundamental networking and security concepts as part of the Computer Technology Integration foundations." },
-      { code: "CTS-115", title: "Information Systems Business Concepts", subject: "Computer Science", desc: "Introduces the role of IT in managing business processes and the need for business process and IT alignment." },
-      { code: "CIS-115", title: "Intro to Programming & Logic", subject: "Computer Science", desc: "" },
-      { code: "COM-120", title: "Intro to Interpersonal Communication", subject: "Communications", desc: "" },
-      { code: "ENG-111", title: "Writing and Inquiry", subject: "English", desc: "" },
-      { code: "MAT-110", title: "Math Measurement & Literacy", subject: "Mathematics", desc: "" },
-      { code: "POL-120", title: "American Government", subject: "Political Science", desc: "" },
-      { code: "ACA-120", title: "College Transfer Success", subject: "Academic Success", desc: "Provides the information and strategies necessary to develop clear personal, academic, and professional goals." },
-      { code: "DME-120", title: "Intro to Multimedia Applications", subject: "Digital Media", desc: "" },
-      { code: "DME-130", title: "Digital Animation I", subject: "Digital Media", desc: "" },
-      { code: "SGD-111", title: "Introduction to Simulation and Game Development", subject: "Game Development", desc: "Provides an introduction to simulation and game development." },
-      { code: "SGD-112", title: "3D Modeling II", subject: "Game Development", desc: "" },
-      { code: "SGD-114", title: "3D Modeling I", subject: "Game Development", desc: "" },
-      { code: "SGD-116", title: "Animation I", subject: "Game Development", desc: "" },
-      { code: "SGD-158", title: "Simulation and Game Design Tools", subject: "Game Development", desc: "" },
-      { code: "SGD-162", title: "3D Character Modeling", subject: "Game Development", desc: "" },
-      { code: "SGD-163", title: "Game Level Design I", subject: "Game Development", desc: "" },
-      { code: "SGD-172", title: "3D Rendering", subject: "Game Development", desc: "" },
-      { code: "SGD-180", title: "Game Design I", subject: "Game Development", desc: "" },
-      { code: "SGD-212", title: "Game Design II", subject: "Game Development", desc: "" },
-      { code: "SGD-237", title: "Game Character Design", subject: "Game Development", desc: "" },
-      { code: "SGD-289", title: "Game Production I", subject: "Game Development", desc: "" },
-    ];
-
-    const $ = (s, el=document) => el.querySelector(s);
-    const list = $('#list');
-    const q = $('#q');
-    const subject = $('#subject');
-    const sort = $('#sort');
-
-    function bubble(c){
-      const wrapper = document.createElement('div');
-      wrapper.className = 'row';
-
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'bubble';
-      btn.setAttribute('aria-expanded','false');
-      btn.setAttribute('aria-controls', `panel-${c.code}`);
-      btn.innerHTML = `<span class="caret" aria-hidden="true"></span><span class="code">${c.code}</span> ${c.title}`;
-
-      const panel = document.createElement('div');
-      panel.className = 'panel';
-      panel.id = `panel-${c.code}`;
-      panel.innerHTML = c.desc && c.desc.trim() ? c.desc : '<em>N/A</em>';
-
-      const toggle = () => {
-        const next = btn.getAttribute('aria-expanded') === 'false';
-        btn.setAttribute('aria-expanded', String(next));
-        panel.classList.toggle('open', next);
-      };
-      btn.addEventListener('click', toggle);
-      btn.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); }});
-
-      wrapper.append(btn, panel);
-      return wrapper;
-    }
-
-    function render(){
-      const query = q.value.trim().toLowerCase();
-      const subj = subject.value;
-      let items = COURSES.slice();
-      if(query){ items = items.filter(c => `${c.code} ${c.title}`.toLowerCase().includes(query)); }
-      if(subj){ items = items.filter(c => c.subject === subj); }
-      if(sort.value === 'az'){ items.sort((a,b)=> a.title.localeCompare(b.title)); }
-      if(sort.value === 'za'){ items.sort((a,b)=> b.title.localeCompare(a.title)); }
-      if(sort.value === 'code'){ items.sort((a,b)=> a.code.localeCompare(b.code)); }
-
-      list.innerHTML = '';
-      items.forEach(c => list.appendChild(bubble(c)));
-    }
-
-    q.addEventListener('input', render);
-    subject.addEventListener('change', render);
-    sort.addEventListener('change', render);
-
-    render();
-  </script>
-</body>
-</html>
+    footer { text-align: center; padding:
