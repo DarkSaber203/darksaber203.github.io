@@ -6,7 +6,7 @@
   <title>Jonathan Wayne - Education</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap" rel="stylesheet" />
   <style>
-    /* ===== Base: mirror your index.html look exactly ===== */
+    /* ===== Base: mirrors index.html ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Roboto', sans-serif; line-height: 1.6; background: #0d1117; color: #c9d1d9; }
 
@@ -24,24 +24,25 @@
     .crumb { color: #8b949e; margin-bottom: .5rem; }
     .intro { color: #8b949e; margin-bottom: 1rem; }
 
-    /* ===== Filters (subtle, to match site chips/buttons) ===== */
+    /* ===== Filters ===== */
     .filters { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 1.25rem; }
     .filters input,
     .filters select { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; border-radius: 5px; padding: .5rem .75rem; }
 
-    /* ===== Bubbles (match your site tokens/chips) ===== */
-    .list { display: grid; grid-template-columns: 1fr; gap: .75rem; }
-    @media (min-width: 760px){ .list { grid-template-columns: 1fr 1fr; } }
-    @media (min-width: 1060px){ .list { grid-template-columns: 1fr 1fr 1fr; } }
+    /* ===== Responsive grid of bubbles ===== */
+    .list { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: .75rem; align-items: start; }
 
-    .bubble { background: #21262d; border: 1px solid #30363d; border-radius: 9999px; padding: .6rem 1rem; display: inline-flex; align-items: center; gap: .6rem; cursor: pointer; width: 100%; text-align: left; }
+    /* Each bubble+panel lives in one grid item. When opened, the item spans all columns to prevent sizing jitter in neighbors. */
+    .row { display: block; }
+    .row.open { grid-column: 1 / -1; }
+
+    .bubble { background: #21262d; border: 1px solid #30363d; border-radius: 9999px; padding: .65rem 1rem; display: inline-flex; align-items: center; gap: .6rem; cursor: pointer; width: 100%; text-align: left; color: #ffffff; }
     .bubble:hover { background: #242b33; }
-    .code { font-weight: 700; color: #58a6ff; }
+    .code { font-weight: 700; color: #ffffff; }
     .caret { width: 0; height: 0; border-left: 6px solid #58a6ff; border-top: 6px solid transparent; border-bottom: 6px solid transparent; transition: transform .15s ease; }
     .bubble[aria-expanded="true"] .caret { transform: rotate(90deg); }
 
-    /* Drop panel under the bubble */
-    .panel { display: none; padding: .6rem 1rem .8rem 1rem; margin-left: 1rem; border-left: 2px dashed #30363d; color: #8b949e; }
+    .panel { display: none; padding: .65rem 1rem .85rem 1rem; margin-left: 1rem; border-left: 2px dashed #30363d; color: #c9d1d9; }
     .panel.open { display: block; }
 
     footer { text-align: center; padding: 2rem; color: #8b949e; font-size: .9rem; }
@@ -131,6 +132,7 @@
 
     function bubble(c){
       const row = document.createElement('div');
+      row.className = 'row';
 
       const btn = document.createElement('button');
       btn.type = 'button';
@@ -148,6 +150,7 @@
         const next = btn.getAttribute('aria-expanded') === 'false';
         btn.setAttribute('aria-expanded', String(next));
         panel.classList.toggle('open', next);
+        row.classList.toggle('open', next); // span row full-width to avoid layout jitter
       };
       btn.addEventListener('click', toggle);
       btn.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); }});
