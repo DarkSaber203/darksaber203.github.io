@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jonathan Wayne - Portfolio</title>
+  <title>Jonathan Wayne - Education</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap" rel="stylesheet" />
   <style>
+    /* ===== Base: mirror your index.html look exactly ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Roboto', sans-serif; line-height: 1.6; background: #0d1117; color: #c9d1d9; }
+
     header { background: #161b22; padding: 2rem; text-align: center; }
     header h1 { font-size: 2.5rem; }
     header p { font-size: 1.2rem; color: #8b949e; }
@@ -16,17 +18,33 @@
     nav a { color: #58a6ff; margin: 0 1rem; text-decoration: none; font-weight: 500; }
     nav a:hover { text-decoration: underline; }
 
-    section { max-width: 900px; margin: 2rem auto; padding: 1rem; }
-    section h2 { border-bottom: 2px solid #30363d; padding-bottom: 0.5rem; margin-bottom: 1rem; color: #58a6ff; }
+    main { max-width: 900px; margin: 2rem auto; padding: 1rem; }
 
-    .skills ul, .projects ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .skills li, .projects li { background: #21262d; padding: 0.5rem 1rem; border-radius: 5px; }
+    h2 { border-bottom: 2px solid #30363d; padding-bottom: 0.5rem; margin-bottom: 1rem; color: #58a6ff; }
+    .crumb { color: #8b949e; margin-bottom: .5rem; }
+    .intro { color: #8b949e; margin-bottom: 1rem; }
 
-    .project-card { background: #21262d; padding: 1rem; margin-bottom: 1rem; border-radius: 5px; }
-    .project-card h3 { color: #58a6ff; }
-    .project-card p { margin-top: 0.5rem; }
+    /* ===== Filters (subtle, to match site chips/buttons) ===== */
+    .filters { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 1.25rem; }
+    .filters input,
+    .filters select { background: #21262d; color: #c9d1d9; border: 1px solid #30363d; border-radius: 5px; padding: .5rem .75rem; }
 
-    footer { text-align: center; padding: 2rem; color: #8b949e; font-size: 0.9rem; }
+    /* ===== Bubbles (match your site tokens/chips) ===== */
+    .list { display: grid; grid-template-columns: 1fr; gap: .75rem; }
+    @media (min-width: 760px){ .list { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1060px){ .list { grid-template-columns: 1fr 1fr 1fr; } }
+
+    .bubble { background: #21262d; border: 1px solid #30363d; border-radius: 9999px; padding: .6rem 1rem; display: inline-flex; align-items: center; gap: .6rem; cursor: pointer; width: 100%; text-align: left; }
+    .bubble:hover { background: #242b33; }
+    .code { font-weight: 700; color: #58a6ff; }
+    .caret { width: 0; height: 0; border-left: 6px solid #58a6ff; border-top: 6px solid transparent; border-bottom: 6px solid transparent; transition: transform .15s ease; }
+    .bubble[aria-expanded="true"] .caret { transform: rotate(90deg); }
+
+    /* Drop panel under the bubble */
+    .panel { display: none; padding: .6rem 1rem .8rem 1rem; margin-left: 1rem; border-left: 2px dashed #30363d; color: #8b949e; }
+    .panel.open { display: block; }
+
+    footer { text-align: center; padding: 2rem; color: #8b949e; font-size: .9rem; }
   </style>
 </head>
 <body>
@@ -43,7 +61,7 @@
   <main>
     <div class="crumb">Portfolio / Education</div>
     <h2>Completed Courses @ Fayetteville Tech</h2>
-    <p class="intro">Click a bubble to reveal the course description. If FTCC doesn’t list one, you’ll see <strong>N/A</strong>.</p>
+    <p class="intro">Click a bubble to reveal the course description. If there isn't an official text available, you'll see <strong>N/A</strong>.</p>
 
     <div class="filters">
       <input id="q" type="search" placeholder="Search title or code…" aria-label="Search courses" />
@@ -106,15 +124,13 @@
       { code: "SGD-289", title: "Game Production I", subject: "Game Development", desc: "" },
     ];
 
-    const $ = (s, el=document) => el.querySelector(s);
-    const list = $('#list');
-    const q = $('#q');
-    const subject = $('#subject');
-    const sort = $('#sort');
+    const list = document.getElementById('list');
+    const q = document.getElementById('q');
+    const subject = document.getElementById('subject');
+    const sort = document.getElementById('sort');
 
     function bubble(c){
-      const wrapper = document.createElement('div');
-      wrapper.className = 'row';
+      const row = document.createElement('div');
 
       const btn = document.createElement('button');
       btn.type = 'button';
@@ -134,10 +150,10 @@
         panel.classList.toggle('open', next);
       };
       btn.addEventListener('click', toggle);
-      btn.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); }});
+      btn.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); }});
 
-      wrapper.append(btn, panel);
-      return wrapper;
+      row.append(btn, panel);
+      return row;
     }
 
     function render(){
