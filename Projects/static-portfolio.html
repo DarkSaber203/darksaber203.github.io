@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Static Portfolio — Jonathan Wayne</title><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="../assets/styles.css?v=5"/>
+</head><body>
+<header class="site-header"><div class="container nav">
+  <a class="brand" href="../"><div class="logo"></div><strong class="name">Jonathan Wayne</strong></a>
+  <nav class="row">
+    <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="../">Home</a>
+      <a href="../Projects.html" class="active">Projects</a>
+      <a href="../Education.html">Education</a>
+      <a href="../Resume.html">Resume</a>
+      <a href="../Contact.html">Contact</a>
+    </div>
+  </nav>
+</div></header>
+
+<main class="container">
+  <nav class="breadcrumbs section">
+    <a href="../Projects.html">Projects</a> › <span>Static Portfolio</span>
+  </nav>
+
+  <section class="project-hero container">
+    <h1>Static Portfolio</h1>
+    <p class="subtle">Lightweight, responsive, accessible template with shared CSS.</p>
+    <div class="project-meta mt2"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">Accessibility</span> <a class="demo-chip" href="https://example.com/portfolio" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg> Live demo</a></div>
+  </section>
+
+  <section class="section detail-grid">
+    <div>
+      <div class="gallery" data-gallery>
+        <div class="gallery-main">
+          <img src="../assets/img/static-portfolio/site1.png" alt="Static Portfolio hero">
+        </div>
+        <div class="gallery-thumbs mt2">
+          <div class="thumb active" data-src="../assets/img/static-portfolio/site1.png"><img src="../assets/img/static-portfolio/site1.png" alt="Static Portfolio thumbnail 1"></div>
+<div class="thumb " data-src="../assets/img/static-portfolio/site2.png"><img src="../assets/img/static-portfolio/site2.png" alt="Static Portfolio thumbnail 2"></div>
+<div class="thumb " data-src="../assets/img/static-portfolio/site3.png"><img src="../assets/img/static-portfolio/site3.png" alt="Static Portfolio thumbnail 3"></div>
+<div class="thumb " data-src="../assets/img/static-portfolio/site4.png"><img src="../assets/img/static-portfolio/site4.png" alt="Static Portfolio thumbnail 4"></div>
+<div class="thumb " data-src="../assets/img/static-portfolio/site5.png"><img src="../assets/img/static-portfolio/site5.png" alt="Static Portfolio thumbnail 5"></div>
+        </div>
+      </div>
+
+      <div class="lightbox">
+        <button class="close">✕</button>
+        <button class="prev">⟨</button>
+        <img src="../assets/img/static-portfolio/site1.png" alt="Static Portfolio expanded">
+        <button class="next">⟩</button>
+      </div>
+
+      <hr class="sep"/>
+      <h2>What I did</h2>
+      <ul class="mt2"><li>Unified visual language across pages via a single CSS theme.</li><li>Added responsive nav, cards, and accessible color contrast.</li><li>Kept JS minimal for portability and speed.</li></ul>
+
+      
+    <div class="pager">
+      <a href="./level-blockout.html">← 3D Level Blockout</a>
+      <a href="./http-enum.html">HTTP/HTTPS Enumeration →</a>
+    </div>
+    </div>
+
+    <aside class="aside-card">
+      <h3>Project info</h3>
+      <div class="kv mt2">
+        <div>Role</div><div>Designer & Engineer</div>
+        <div>Status</div><div><span class="demo-chip"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg> Complete</span></div>
+        <div>Tech</div><div>HTML, CSS, Accessibility</div>
+      </div>
+      <div class="downloads mt3">
+        <a class="button ghost" href="../downloads/static-portfolio.zip">Download Starter Template</a>
+      </div>
+    </aside>
+  </section>
+</main>
+
+<footer class="site-footer"><div class="container small">© 2025 Jonathan Wayne Snodgrass • jonathanwayne.dev</div></footer>
+<script src="../assets/lightbox.js"></script>
+</body></html>
