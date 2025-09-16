@@ -3,18 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jonathan Wayne - Portfolio</title>
+  <title>Jonathan Wayne - Education</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700&display=swap" rel="stylesheet" />
   <style>
+    /* Base — mirrors your index.html */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Roboto', sans-serif; line-height: 1.6; background: #0d1117; color: #c9d1d9; }
-    header { background: #161b22; padding: 2rem; text-align: center; }
+
+    header { background:#161b22; padding:2rem; text-align:center; }
     header h1 { font-size: 2.5rem; }
     header p { font-size: 1.2rem; color: #8b949e; }
 
-    nav { background: #161b22; padding: 1rem; text-align: center; }
-    nav a { color: #58a6ff; margin: 0 1rem; text-decoration: none; font-weight: 500; }
-    nav a:hover { text-decoration: underline; }
+    /* Nav is a separate bar below header (same as Home) */
+    nav { background:#161b22; padding:1rem; text-align:center; }
+    nav a { color:#58a6ff; margin:0 1rem; text-decoration:none; font-weight:500; }
+    nav a:hover { text-decoration:underline; }
 
     main { max-width: 900px; margin: 2rem auto; padding: 1rem; }
     h2 { border-bottom: 2px solid #30363d; padding-bottom: 0.5rem; margin-bottom: 1rem; color: #58a6ff; }
@@ -160,13 +163,14 @@
 
   <header>
     <h1>Jonathan Wayne Snodgrass</h1>
-    <p class="tagline">Game Design & Cybersecurity Student</p>
-    <nav>
-      <a href="/index.html">Home</a>
-      <a href="/Projects.html">Projects</a>
-      <a href="/Education.html" aria-current="page">Education</a>
-    </nav>
+    <p>Game Design & Cybersecurity Student</p>
   </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="Projects.html">Projects</a>
+    <a href="Education.html" aria-current="page">Education</a>
+  </nav>
 
   <main>
     <div class="crumb">Portfolio / Education</div>
