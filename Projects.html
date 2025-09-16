@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="en"><head>
+<title>Projects — Jonathan Wayne</title><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/styles.css?v=5"/>
+<script>function toggleNav(){document.querySelector('.nav-links').classList.toggle('open')}</script>
+<script src="assets/cards.js" defer></script>
+</head><body>
+
+<header class="site-header"><div class="container nav">
+  <a class="brand" href="./"><div class="logo"></div><strong class="name">Jonathan Wayne</strong></a>
+  <nav class="row">
+    <button class="nav-toggle" aria-label="Toggle navigation" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <div class="nav-links">
+      <a href="./" >Home</a>
+      <a href="./Projects.html" class="active">Projects</a>
+      <a href="./Education.html" >Education</a>
+      <a href="./Resume.html" >Resume</a>
+      <a href="./Contact.html" >Contact</a>
+    </div>
+  </nav>
+</div></header>
+<main class="container section">
+  <h2>Projects</h2>
+  <p class="subtle">“View details” opens a full page with images, notes, and downloads. Cards are generated from <code>assets/projects.json</code>.</p>
+  <div id="projects-grid" class="grid grid-3 mt3"></div>
+</main>
+<footer class="site-footer"><div class="container small">© 2025 Jonathan Wayne Snodgrass • jonathanwayne.dev</div></footer>
+</body></html>
