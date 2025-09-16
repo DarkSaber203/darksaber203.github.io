@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>About — Jonathan Wayne</title>
+<link rel="stylesheet" href="assets/styles.css?v=7"/>
+<script>function toggleNav(){document.querySelector('.nav-links').classList.toggle('open')}</script>
+<style>
+/* about-specific helpers */
+.about-hero{padding:3rem 0 1rem}
+.about-grid{display:grid;gap:1.25rem;grid-template-columns:1.2fr 1fr}
+@media (max-width:980px){.about-grid{grid-template-columns:1fr}}
+.portrait{width:100%;aspect-ratio:1/1;border-radius:1rem;border:1px solid var(--border);background:linear-gradient(135deg, rgba(122,162,255,.15), rgba(165,214,255,.06));display:flex;align-items:center;justify-content:center;color:var(--brand)}
+.kv{display:grid;grid-template-columns:120px 1fr;gap:.5rem .75rem}
+.fact{display:flex;gap:.6rem;align-items:center;color:var(--muted)}
+.fact .dot{width:8px;height:8px;border-radius:50%;background:var(--brand);display:inline-block}
+.progress{height:10px;background:var(--panel);border:1px solid var(--border);border-radius:999px;overflow:hidden}
+.progress > span{display:block;height:100%;background:linear-gradient(90deg, var(--brand), var(--brand-2))}
+.badge-pill{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .6rem;border:1px solid var(--border);border-radius:999px;background:var(--panel);font-size:.85rem}
+.links a{display:inline-flex;align-items:center;gap:.4rem}
+</style>
+</head><body>
+<header class="site-header"><div class="container nav">
+  <a class="brand" href="./"><div class="logo"></div><strong class="name">Jonathan Wayne</strong></a>
+  <nav class="row">
+    <button class="nav-toggle" aria-label="Toggle navigation" onclick="toggleNav()">☰</button>
+    <div class="nav-links">
+      <a href="./" class="active">About</a>
+      <a href="./Projects.html">Projects</a>
+      <a href="./Education.html">Education</a>
+      <a href="./Resume.html">Resume</a>
+      <a href="./Contact.html">Contact</a>
+    </div>
+  </nav>
+</div></header>
+
+<main>
+  <section class="container about-hero">
+    <span class="kicker">Hi, I’m Jonathan —</span>
+    <h1 class="m0">Designer–developer blending game worlds & secure systems.</h1>
+    <p class="subtle mt2">I’m a student focused on simulation/game design and cybersecurity. I like building things that are both immersive and robust—clean level flows, readable UI, and defensible networks.</p>
+  </section>
+
+  <section class="container section about-grid">
+    <div>
+      <div class="card">
+        <h2>About me</h2>
+        <p class="mt1">Based in Fayetteville, NC, I’ve been tinkering with engines, modeling tools, and Linux boxes for years. In school, I split time between <strong>level design & 3D</strong> and <strong>security fundamentals</strong> like packet analysis and hardening. I value documentation, repeatable workflows, and approachable UX.</p>
+        <div class="row mt3">
+          <span class="badge-pill">🎮 Unreal / Unity</span>
+          <span class="badge-pill">🔒 Wireshark / Linux</span>
+          <span class="badge-pill">🌐 HTML / CSS</span>
+          <span class="badge-pill">🐍 Python</span>
+        </div>
+        <div class="row mt3 links">
+          <a class="button" href="./Projects.html">See my projects</a>
+          <a class="button ghost" href="./downloads/Jonathan_Wayne_Resume.pdf">Download resume</a>
+        </div>
+      </div>
+
+      <div class="card mt3">
+        <h2>Highlights</h2>
+        <ul class="mt2">
+          <li>Built a reusable <strong>packet triage kit</strong> for HTTP/HTTPS enumeration labs.</li>
+          <li>Prototyped <strong>3D levels</strong> that emphasize player flow, sightlines, and lighting anchors.</li>
+          <li>Shipped a <strong>fast, static portfolio</strong> with consistent components and minimal JS.</li>
+        </ul>
+      </div>
+
+      <div class="card mt3">
+        <h2>Toolbox</h2>
+        <div class="grid grid-2 mt2">
+          <div>
+            <div class="fact"><span class="dot"></span>Unreal / Unity</div>
+            <div class="progress mt1"><span style="width:85%"></span></div>
+          </div>
+          <div>
+            <div class="fact"><span class="dot"></span>Wireshark / tcpdump</div>
+            <div class="progress mt1"><span style="width:80%"></span></div>
+          </div>
+          <div>
+            <div class="fact"><span class="dot"></span>Blender / Modeling</div>
+            <div class="progress mt1"><span style="width:75%"></span></div>
+          </div>
+          <div>
+            <div class="fact"><span class="dot"></span>HTML / CSS / UI</div>
+            <div class="progress mt1"><span style="width:85%"></span></div>
+          </div>
+          <div>
+            <div class="fact"><span class="dot"></span>Python / Scripting</div>
+            <div class="progress mt1"><span style="width:70%"></span></div>
+          </div>
+          <div>
+            <div class="fact"><span class="dot"></span>Linux / Ops</div>
+            <div class="progress mt1"><span style="width:78%"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside>
+      <div class="portrait card" aria-label="Portrait placeholder">JW</div>
+      <div class="card mt3">
+        <h3>Quick facts</h3>
+        <div class="kv mt2">
+          <div>Location</div><div>Fayetteville, NC</div>
+          <div>Focus</div><div>Game Design · Cybersecurity</div>
+          <div>Currently</div><div>Coursework & personal projects</div>
+          <div>Email</div><div><a href="mailto:you@example.com">you@example.com</a></div>
+        </div>
+      </div>
+      <div class="card mt3">
+        <h3>Recent</h3>
+        <ul class="mt2">
+          <li>Refined HTTP/HTTPS lab runbook and filter cookbook.</li>
+          <li>Iterated on blockout—improved pacing and lighting calls.</li>
+          <li>Added JSON-driven project system to this site.</li>
+        </ul>
+      </div>
+    </aside>
+  </section>
+
+  <section class="container section">
+    <h2>Featured work</h2>
+    <p class="subtle">A couple of quick links—browse the rest on the Projects page.</p>
+    <div class="grid grid-3 mt3">
+      <article class="card">
+        <h3>HTTP/HTTPS Enumeration</h3>
+        <p class="subtle">Reusable filters and triage workflow for suspicious web traffic.</p>
+        <div class="row mt2">
+          <a class="button" href="./projects/http-enum.html">View details</a>
+          <a class="button ghost" href="./downloads/http-enum.zip">Download</a>
+        </div>
+      </article>
+      <article class="card">
+        <h3>3D Level Blockout</h3>
+        <p class="subtle">Sightlines, pacing, and lighting anchors for exploration.</p>
+        <div class="row mt2">
+          <a class="button" href="./projects/level-blockout.html">View details</a>
+        </div>
+      </article>
+      <article class="card">
+        <h3>Static Portfolio</h3>
+        <p class="subtle">Clean components, accessible contrast, minimal JS.</p>
+        <div class="row mt2">
+          <a class="button" href="./projects/static-portfolio.html">View details</a>
+          <a class="button ghost" href="./downloads/static-portfolio.zip">Download</a>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer"><div class="container small">© 2025 Jonathan Wayne Snodgrass • jonathanwayne.dev</div></footer>
+</body></html>
