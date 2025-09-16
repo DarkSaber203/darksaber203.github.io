@@ -1,0 +1,85 @@
+[
+  {
+    "slug": "http-enum",
+    "title": "HTTP/HTTPS Enumeration",
+    "summary": "Traffic analysis for anomalous web requests; identified fuzzing & directory enumeration patterns.",
+    "tags": [
+      "Wireshark",
+      "tcpdump",
+      "Security",
+      "Linux"
+    ],
+    "images": [
+      "http1.png",
+      "http2.png",
+      "http3.png",
+      "http4.png",
+      "http5.png"
+    ],
+    "downloads": [
+      {
+        "file": "http-enum.zip",
+        "label": "Lab Files"
+      }
+    ],
+    "live_demo": "https://example.com/http-enum-demo",
+    "what_i_did": [
+      "Built reusable capture/display filters to isolate suspicious web traffic quickly.",
+      "Correlated PCAP findings with server logs to validate enumeration attempts.",
+      "Wrote a short runbook so future triage is repeatable."
+    ]
+  },
+  {
+    "slug": "level-blockout",
+    "title": "3D Level Blockout",
+    "summary": "Greybox level with focus on sightlines, flow, and lighting anchors.",
+    "tags": [
+      "Unreal",
+      "Blender",
+      "Design"
+    ],
+    "images": [
+      "lvl1.png",
+      "lvl2.png",
+      "lvl3.png",
+      "lvl4.png",
+      "lvl5.png"
+    ],
+    "downloads": [],
+    "live_demo": "",
+    "what_i_did": [
+      "Iterated on blockout geometry to improve pacing and readability.",
+      "Established key vistas and choke points to frame encounters.",
+      "Tested simple lighting to encourage navigation."
+    ]
+  },
+  {
+    "slug": "static-portfolio",
+    "title": "Static Portfolio",
+    "summary": "Lightweight, responsive, accessible template with shared CSS.",
+    "tags": [
+      "HTML",
+      "CSS",
+      "Accessibility"
+    ],
+    "images": [
+      "site1.png",
+      "site2.png",
+      "site3.png",
+      "site4.png",
+      "site5.png"
+    ],
+    "downloads": [
+      {
+        "file": "static-portfolio.zip",
+        "label": "Starter Template"
+      }
+    ],
+    "live_demo": "https://example.com/portfolio",
+    "what_i_did": [
+      "Unified visual language across pages via a single CSS theme.",
+      "Added responsive nav, cards, and accessible color contrast.",
+      "Kept JS minimal for portability and speed."
+    ]
+  }
+]
