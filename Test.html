@@ -45,14 +45,13 @@
     .school-panel {
       background: #21262d; border: 1px solid #30363d; border-top: 0;
       border-radius: 0 0 5px 5px; padding: 1rem; margin-top: -1px;
-      overflow: hidden; /* ⬅️ prevents any child from overflowing the rounded edge */
+      overflow: hidden; /* keep rounded corners clean */
     }
 
-    /* Course grid — responsive, never overflows */
-    .course-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* ⬅️ auto-fit keeps cards inside */
-      gap: 0.9rem;
+    /* Course grid — EXACTLY 2 per row on md+, 1 per row on small */
+    .course-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    @media (min-width: 720px){
+      .course-grid { grid-template-columns: 1fr 1fr; }
     }
 
     details.course { background: #21262d; border: 1px solid #30363d; border-radius: 8px; }
@@ -81,7 +80,7 @@
       font-weight: 700; color: #ffffff;
     }
 
-    /* Titles wrap naturally (no clipping) */
+    /* Titles wrap naturally (more room with 2 cols) */
     .title { line-height: 1.35; overflow-wrap: anywhere; }
 
     /* Pictogram */
@@ -126,7 +125,7 @@
   </style>
 </head>
 <body>
-  <!-- SVG icon sprite (used by pictograms) -->
+  <!-- SVG icon sprite (pictograms) -->
   <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
     <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="4" y="10" width="16" height="10" rx="2"></rect><path d="M8 10V8a4 4 0 1 1 8 0v2"></path>
