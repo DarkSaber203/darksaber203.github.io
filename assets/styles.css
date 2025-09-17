@@ -1,0 +1,13 @@
+:root{--brand:#7aa2ff;--brand-2:#a5d6ff;}
+
+/* --- Link Styling (patched) --- */
+a {
+  color: var(--brand);
+  text-decoration: none;
+  transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+a:hover,
+a:focus {
+  color: var(--brand-2);
+  text-decoration: underline;
+}
